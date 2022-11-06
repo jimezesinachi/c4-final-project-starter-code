@@ -11,9 +11,9 @@ const s3 = new XAWS.S3({
 })
 
 export function getUploadUrl(todoId: string) {
-    return s3.getSignedUrl('putObject', {
-      Bucket: bucketName,
-      Key: todoId,
-      Expires: 300
-    })
+  return s3.getSignedUrl('putObject', {
+    Bucket: bucketName,
+    Key: todoId,
+    Expires: 300
+  })
 }

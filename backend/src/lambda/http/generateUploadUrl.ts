@@ -5,23 +5,19 @@ import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 import { getTodoById, updateTodoById } from '../../helpers/todosAcess'
 import { getUploadUrl } from '../../helpers/attachmentUtils'
-
-// import { createAttachmentPresignedUrl } from '../../businessLogic/todos'
-// import { getUserId } from '../utils'
-
-const bucketName = process.env.ATTACHMENT_S3_BUCKET
+import { signedUrlBuilder } from '../../helpers/todos'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const todoId = event.pathParameters.todoId
-    // TODO: Return a presigned URL to upload a file for a TODO item with the provided id
-    console.log(todoId)
-    const todo = await getTodoById(todoId)
-    todo.attachmentUrl = `https://${bucketName}.s3.amazonaws.com/${todoId}`
-    
-    await updateTodoById(todo)
 
-    const url = await getUploadUrl(todoId) 
+    const todo = await getTodoById(todoId)
+
+    const updateTodo = signedUrlBuilder(todo)
+
+    await updateTodoById(updateTodo)
+
+    const url = await getUploadUrl(todoId)
 
     return {
       statusCode: 201,
