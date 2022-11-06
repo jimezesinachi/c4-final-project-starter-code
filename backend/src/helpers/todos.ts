@@ -58,5 +58,6 @@ export function deleteTodoBuilder (todoId: string): boolean {
     return false
   } else {
     console.log(todoId)
+    return true
   }
 }
