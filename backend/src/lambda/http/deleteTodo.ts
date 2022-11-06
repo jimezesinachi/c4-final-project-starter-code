@@ -8,7 +8,7 @@ import { deleteTodoBuilder } from '../../helpers/todos'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const todoId = event.pathParameters.todoIdodo
+    const todoId = event.pathParameters.todoId
 
     const isValidTodoId = deleteTodoBuilder(todoId)
 
