@@ -3,9 +3,9 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
-import { getTodoById, updateTodoById } from '../../helpers/todosAcess'
+import { getTodoById, updateTodoById } from '../../dataLayer/todosAcess'
 import { getUploadUrl } from '../../helpers/attachmentUtils'
-import { signedUrlBuilder } from '../../helpers/todos'
+import { signedUrlBuilder } from '../../businessLogic/todos'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -28,10 +28,8 @@ export const handler = middy(
   }
 )
 
-handler
-  .use(httpErrorHandler())
-  .use(
-    cors({
-      credentials: true
-    })
-  )
+handler.use(httpErrorHandler()).use(
+  cors({
+    credentials: true
+  })
+)

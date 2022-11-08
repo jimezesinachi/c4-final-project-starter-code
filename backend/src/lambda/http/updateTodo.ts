@@ -5,9 +5,8 @@ import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-import { getTodoById, updateTodo } from '../../helpers/todosAcess'
-import { updateTodoBuilder } from '../../helpers/todos'
-
+import { getTodoById, updateTodo } from '../../dataLayer/todosAcess'
+import { updateTodoBuilder } from '../../businessLogic/todos'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -40,10 +39,8 @@ export const handler = middy(
   }
 )
 
-handler
-  .use(httpErrorHandler())
-  .use(
-    cors({
-      credentials: true
-    })
-  )
+handler.use(httpErrorHandler()).use(
+  cors({
+    credentials: true
+  })
+)
